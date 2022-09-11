@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>画像変更サンプルページ</title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <img id="img" src="./image1.png" height="800px" width="595px" onClick="changeImage()">
+        </div>
+        <script>
+            let i = 1;
+            let intervalId;
+            let image = document.getElementById('img');
+            const images = ["./image1.png","./image2.png","./img20220905_11072033.png",
+                "./img20220905_11094933.png","./img20220905_11122057.png","./img20220905_11154135.png",
+                "./img20220905_11182928.png","./img20220905_11211680.png","./img20220905_11232120.png","./img20220908_09425704.png",];
+            window.onload=function(){
+                console.log("1枚目");
+            }
+            function changeImage(){
+                if(image.style.opacity == ''){
+                    image.style.opacity = 1;
+                }
+                let opacityInt = image.style.opacity * 100;
+                //フェードアウトの処理（opacityを100ミリ秒ごとに0.1づつ減らす）
+                let intervalId = setInterval( () => {
+                    opacityInt = opacityInt - 10;
+                    image.style.opacity = opacityInt / 100;
+
+                    if(image.style.opacity <= 0){
+                    clearInterval(intervalId);
+                    //画像を交換
+                    image.src=`${images[i]}`
+                    console.log(`${i+i}枚目`)
+                    opacityInt = image.style.opacity * 100;
+                    //フェードインの処理（opacityを100ミリ秒ごとに0.1づつ増やす）
+                    intervalId = setInterval( () => {
+                        opacityInt = opacityInt + 10;
+                        image.style.opacity = opacityInt / 100;
+                        if(image.style.opacity >= 1){
+                        clearInterval(intervalId);
+                        }
+                    }, 100);
+                    }
+                }, 100);
+                i++;
+                if(i==10)i=0;
+            }
+        </script>
+    </body>
+</html>
